@@ -1,0 +1,241 @@
+import type { ConceptInput } from '@/types/content';
+
+const concepts: ConceptInput[] = [
+  {
+    id: 'asset-acquisition-assignment',
+    title: 'Acquisition, Assignment and Accounting: Procurement, Ownership and Classification',
+    tagline: 'Security starts before purchase: buy from vetted sources, record every asset, and give each one an accountable owner and a classification.',
+    covers: ['acquisition', 'assignment'],
+    glossary: ['asset-management', 'data-owner'],
+    beginner: {
+      what: '**Asset management** tracks hardware, software and data through their whole lifecycle. **Acquisition/procurement** is how assets are bought — from approved vendors, with security requirements. **Assignment/accounting** records who is responsible: every asset gets an **owner** accountable for it and a **classification** describing how sensitive or critical it is.',
+      why: 'You can’t protect what you don’t know you have. Unvetted purchases can bring counterfeit hardware, unsupported software or risky SaaS. Without owners, nobody patches, reviews access or decides when to retire an asset.',
+      how: 'Procurement policies require security review of vendors and products, approved catalogues, licence tracking and secure delivery. When an asset arrives it is tagged, entered into the inventory/CMDB, assigned an owner and classified (e.g. confidential, critical). The classification drives the controls applied.',
+      where: 'IT purchasing, software licensing, cloud subscriptions, data repositories and the CMDB.',
+      analogy: 'A library acquires books only from trusted publishers, stamps and catalogues each one, assigns it to a section with a librarian responsible for it, and labels rare books for extra protection.',
+    },
+    exam: {
+      what: '**Acquisition/procurement process**: obtaining assets through approved channels with security due diligence (vendor assessment, supply chain integrity, support lifecycle, licensing, security requirements in contracts). **Assignment/accounting**: recording assets and assigning **ownership** (accountable individual/business unit) and **classification** (sensitivity/criticality) to drive protection requirements.',
+      how: 'Integrate security into procurement (approved vendor lists, SBOM requests, end-of-support dates, right-to-audit). Ownership enables accountability for patching, access reviews and risk acceptance. Classification determines encryption, access, backup and disposal requirements. Shadow IT bypasses procurement — detect it with discovery tools/CASB.',
+      scenario: 'Before purchasing a new SaaS HR platform, procurement requires a security questionnaire, a SOC 2 report and a data processing agreement, then records the system’s owner (HR director) and classification (confidential) in the CMDB.',
+    },
+    terms: [
+      { term: 'CMDB', def: 'Configuration management database — inventory of assets and their relationships.' },
+      { term: 'Asset owner', def: 'The person/role accountable for an asset’s security and lifecycle.' },
+      { term: 'Asset tag', def: 'Physical or digital label uniquely identifying an asset.' },
+      { term: 'Total cost of ownership', def: 'All costs of an asset over its lifecycle, including support and disposal.' },
+    ],
+    breakdownTitle: 'Acquisition and assignment',
+    breakdown: [
+      { name: 'Acquisition / procurement', desc: 'Buy through approved channels with security review.', example: 'New laptops only from authorized resellers.', cue: '*Purchasing*, *vendor approval*.' },
+      { name: 'Ownership', desc: 'Every asset has an accountable owner.', example: 'The CRM belongs to the Sales Operations director.', cue: '*Who is accountable?*' },
+      { name: 'Classification', desc: 'Assets labelled by sensitivity/criticality.', example: 'Payroll server: confidential, critical.', cue: '*Drives required controls*.' },
+    ],
+    example: {
+      title: 'The router bought on an auction site',
+      body: 'A branch manager buys a cheap “new” firewall from an online auction to save time. It turns out to be grey-market hardware with modified firmware and no vendor support. The new procurement policy: network equipment only from authorized partners, security review for all new technology, and every asset registered with an **owner** and **classification** before it’s connected.',
+    },
+    differs: [
+      { vs: 'Owner vs custodian', diff: 'The owner is accountable and makes decisions (e.g. classification, access approval); the custodian (often IT) implements and maintains the controls.' },
+      { vs: 'Asset classification vs data classification', diff: 'Asset classification rates systems (sensitivity/criticality); data classification rates information. Systems inherit the highest classification of the data they hold.' },
+    ],
+    cues: ['“Purchased from an unauthorized source” → procurement process failure.', '“No one is responsible for patching the system” → missing ownership.', '“Determine required controls for an asset” → classification.'],
+    traps: ['Ownership is a business accountability, not necessarily the person who uses or administers the asset.', 'Free/trial SaaS sign-ups are still acquisitions — they need review too.'],
+    memory: '**Buy it right, tag it, own it, label it.**',
+    alt: [{ label: 'Adopting a pet', text: 'Get it from a reputable breeder (procurement), register its microchip (inventory), name the responsible owner (ownership), and note special needs (classification).' }],
+    visual: {
+      kind: 'timeline',
+      title: 'From purchase request to accountable asset',
+      steps: [
+        { label: 'Request', detail: 'Business need submitted through the procurement process.', icon: 'clipboard' },
+        { label: 'Security review', detail: 'Vendor/product assessment: support lifecycle, supply chain, data handling, contract terms.', icon: 'scan-search' },
+        { label: 'Purchase from approved source', detail: 'Authorized vendors only; verify authenticity on delivery.', icon: 'truck' },
+        { label: 'Register & tag', detail: 'Asset tag and CMDB/inventory entry.', icon: 'tag' },
+        { label: 'Assign owner', detail: 'Accountable business owner recorded.', icon: 'user-check' },
+        { label: 'Classify', detail: 'Sensitivity/criticality label determines required controls.', icon: 'badge' },
+      ],
+    },
+    flashcards: [
+      ['Why integrate security into procurement?', 'To avoid counterfeit/unsupported products, ensure vendor security, and set contractual security requirements before purchase.'],
+      ['What does assigning an asset owner achieve?', 'Accountability for the asset’s security decisions, patching, access and lifecycle.'],
+    ],
+    questions: [
+      {
+        id: '4.2-01', level: 2,
+        stem: 'An audit finds dozens of servers that nobody takes responsibility for patching or reviewing access. Which asset management practice is MOST lacking?',
+        options: [
+          ['Assigning ownership', 'Accountable owners ensure lifecycle tasks happen.'],
+          ['Data sanitization', 'A disposal-stage activity.'],
+          ['Code signing', 'Unrelated.'],
+          ['Load balancing', 'Unrelated.'],
+        ],
+        answer: [0],
+        explain: 'Assets without owners drift into neglect. Assignment/accounting gives each one an accountable owner.',
+        clues: ['nobody takes responsibility'],
+      },
+    ],
+  },
+  {
+    id: 'asset-tracking',
+    title: 'Monitoring and Asset Tracking: Inventory and Enumeration',
+    tagline: 'Keep an accurate inventory, and continuously discover what is actually connected — so unknown devices and software stand out.',
+    covers: ['tracking'],
+    prerequisites: ['asset-acquisition-assignment'],
+    glossary: ['asset-management', 'enumeration'],
+    beginner: {
+      what: '**Asset tracking** keeps an up-to-date picture of every asset. An **inventory** is the official list of hardware, software, licences and data stores. **Enumeration** is actively discovering and listing what is really on the network or in the cloud — devices, services, accounts, installed software.',
+      why: 'Attackers target the forgotten laptop, the unpatched test server, the unknown cloud bucket. If your inventory doesn’t match reality, those assets go unpatched and unmonitored. Tracking also proves compliance and catches theft.',
+      how: 'Combine an authoritative inventory (CMDB, asset tags, barcodes/RFID) with automated discovery: network scans, endpoint agents, DHCP/ARP data, cloud APIs and software inventory tools. Compare what’s discovered to what’s expected — anything unknown is investigated (rogue device, shadow IT).',
+      where: 'Data centers, offices, cloud accounts, software licence management, vulnerability management (you can only scan what you know about).',
+      analogy: 'A warehouse keeps a stock list (inventory) but also does regular stock-takes, walking the shelves and counting what’s really there (enumeration). Differences reveal theft or errors.',
+    },
+    exam: {
+      what: '**Monitoring/asset tracking**: continuous awareness of asset location, status and configuration. **Inventory**: authoritative record of assets (hardware, software, data, cloud resources) with owners and attributes. **Enumeration**: discovering and listing assets/services (network scanning, agent and agentless discovery, cloud API enumeration).',
+      how: 'Tools: CMDB, asset tags (barcode, RFID, GPS for mobile assets), network discovery and vulnerability scanners, EDR/MDM inventories, software asset management, CASB for SaaS discovery. Reconcile regularly; investigate unknown assets. Accurate inventory underpins patching, incident response and licensing.',
+      scenario: 'A weekly network enumeration discovers a Raspberry Pi plugged into a conference room port that isn’t in the inventory; investigation reveals an unauthorized device.',
+    },
+    terms: [
+      { term: 'Enumeration', def: 'Systematically discovering and listing assets, services or accounts.' },
+      { term: 'Reconciliation', def: 'Comparing discovered assets with the inventory to find gaps.' },
+      { term: 'Software asset management (SAM)', def: 'Tracking installed software and licences.' },
+    ],
+    example: {
+      title: 'The inventory gap',
+      body: 'A healthcare provider’s CMDB lists 1,200 endpoints. Enumeration through DHCP logs, EDR and network scans finds 1,370. The 170 extra include clinicians’ personal tablets, a forgotten test server running an old OS, and a rogue access point. Each is either registered with an owner, quarantined via NAC, or removed — and the vulnerability scanner’s scope is updated.',
+    },
+    differs: [
+      { vs: 'Inventory vs enumeration', diff: 'Inventory is the recorded list; enumeration is the active discovery that verifies and updates it.' },
+    ],
+    cues: ['“Discover all devices connected to the network” → enumeration.', '“Authoritative list of assets and owners” → inventory.', '“Unknown device found during a scan” → reconcile against inventory.'],
+    traps: ['An inventory updated once a year is not tracking — use continuous discovery.', 'Cloud resources and SaaS must be in the inventory too.'],
+    memory: '**Inventory = what we think we have. Enumeration = what we really have.**',
+    alt: [{ label: 'School register', text: 'The class list (inventory) says 30 students; the roll call (enumeration) counts who is actually in the room — and spots the visitor who isn’t on the list.' }],
+    visual: {
+      kind: 'sequence',
+      title: 'Reconciling inventory with discovery',
+      nodes: [
+        { id: 'cmdb', label: 'Inventory / CMDB', sub: '1,200 expected', icon: 'checklist', x: 14, y: 30 },
+        { id: 'scan', label: 'Discovery tools', sub: 'Scans · EDR · DHCP · cloud APIs', icon: 'radar', x: 50, y: 30 },
+        { id: 'net', label: 'Network & cloud', sub: '1,370 found', icon: 'network', x: 86, y: 30 },
+        { id: 'soc', label: 'Investigation', sub: 'Unknown assets', icon: 'user-search', x: 50, y: 82 },
+      ],
+      steps: [
+        { title: 'Enumerate reality', from: 'scan', to: 'net', msg: 'Discover devices, services, software', text: 'Automated discovery lists everything that’s actually connected and installed.' },
+        { title: 'Compare with the inventory', from: 'scan', to: 'cmdb', msg: 'Reconcile', text: 'Discovered assets are matched against the authoritative inventory.' },
+        { title: 'Unknown assets flagged', from: 'scan', to: 'soc', msg: '170 unknown assets', tone: 'warn', text: 'Anything not in the inventory — personal devices, forgotten servers, rogue APs — is investigated.', status: { soc: ['Investigating', 'warn'] } },
+        { title: 'Register, quarantine or remove', from: 'soc', to: 'cmdb', msg: 'Update records', tone: 'ok', text: 'Legitimate assets get owners and classifications; unauthorized ones are quarantined or removed.', status: { cmdb: ['Accurate', 'ok'] } },
+      ],
+    },
+    flashcards: [
+      ['Inventory vs enumeration?', 'Inventory is the recorded list of assets; enumeration actively discovers what’s actually present.'],
+    ],
+    questions: [
+      {
+        id: '4.2-02', level: 2,
+        stem: 'A company suspects its asset records are out of date. Which activity will BEST identify devices on the network that are missing from the inventory?',
+        options: [
+          ['Enumeration using network discovery scans and endpoint data', 'Active discovery reveals what is really connected.'],
+          ['Reviewing last year’s purchase orders', 'Misses unapproved or personal devices.'],
+          ['Reissuing the acceptable use policy', 'Doesn’t find devices.'],
+          ['Increasing password complexity', 'Unrelated.'],
+        ],
+        answer: [0],
+        explain: 'Enumeration finds what exists; reconciliation updates the inventory.',
+        clues: ['missing from the inventory'],
+      },
+    ],
+  },
+  {
+    id: 'asset-disposal',
+    title: 'Disposal and Decommissioning: Sanitization, Destruction, Certification and Data Retention',
+    tagline: 'When assets reach the end of life, keep what you must, destroy what you must, and prove it.',
+    covers: ['disposal'],
+    prerequisites: ['decommissioning'],
+    glossary: ['sanitization', 'crypto-erase', 'degaussing', 'data-retention'],
+    beginner: {
+      what: '**Disposal** is the final stage of an asset’s life. **Sanitization** removes data so it can’t be recovered (overwriting, cryptographic erase). **Destruction** physically destroys the media (shredding, pulverizing, incinerating, degaussing magnetic media). **Certification** documents that sanitization/destruction happened — often a **certificate of destruction** from a vendor. **Data retention** policies say how long data must be kept before it may be disposed of.',
+      why: 'Discarded or resold drives regularly turn up with company data on them. Deleting files or formatting a disk does not remove the data. Laws and contracts require keeping some records for years — and destroying others promptly.',
+      how: 'Check retention requirements and legal holds first. Then choose a method based on media and sensitivity: overwrite or crypto-erase for reuse; degauss or shred for highest sensitivity or failed drives. Use certified vendors, keep chain-of-custody records and certificates, and update the asset inventory.',
+      where: 'Hardware refreshes, leased equipment returns, data center decommissions, cloud storage deletion, paper records.',
+      analogy: 'Clearing out an old filing cabinet: first check which papers you’re legally required to keep (retention), then shred the rest (destruction) and get a receipt from the shredding company (certification).',
+    },
+    exam: {
+      what: '**Sanitization**: removing data from media so recovery is infeasible — clearing (overwrite for reuse), purging (crypto-erase, secure erase, degaussing) per NIST SP 800-88. **Destruction**: physically rendering media unusable (shredding, pulverizing, disintegration, incineration). **Certification**: documented proof (certificate of destruction/sanitization) for compliance and audit. **Data retention**: keeping data for required periods (legal, regulatory, business) and disposing of it afterwards; legal holds override disposal.',
+      how: 'Select the method by media type (HDD vs SSD vs tape vs paper) and classification. SSDs require crypto-erase or physical destruction (overwriting is unreliable due to wear levelling). Degaussing works on magnetic media only. Cloud: crypto-shredding (destroy the keys). Maintain chain of custody to the disposal vendor.',
+      scenario: 'Before returning leased laptops, a company performs cryptographic erasure of the self-encrypting SSDs and obtains a sanitization certificate for each serial number.',
+    },
+    terms: [
+      { term: 'Clear / purge / destroy', def: 'NIST SP 800-88 sanitization levels: overwrite for reuse; make recovery infeasible even with lab techniques; physical destruction.' },
+      { term: 'Crypto-erase', def: 'Destroying the encryption key so encrypted data becomes unreadable.' },
+      { term: 'Degaussing', def: 'Erasing magnetic media with a strong magnetic field (not effective on SSDs).' },
+      { term: 'Legal hold', def: 'Requirement to preserve data relevant to litigation, overriding normal disposal.' },
+    ],
+    breakdownTitle: 'End-of-life controls',
+    breakdown: [
+      { name: 'Sanitization', desc: 'Remove data so it can’t be recovered (overwrite, secure erase, crypto-erase).', cue: '*Reuse or resale*.' },
+      { name: 'Destruction', desc: 'Physically destroy the media.', cue: '*Highest sensitivity*, *failed drives*.' },
+      { name: 'Certification', desc: 'Proof of sanitization/destruction.', cue: '*Certificate of destruction*, *audit evidence*.' },
+      { name: 'Data retention', desc: 'Keep data for required periods, then dispose; legal holds override.', cue: '*How long must we keep it?*' },
+    ],
+    example: {
+      title: 'A responsible hardware refresh',
+      body: 'A bank replaces 300 laptops and 40 servers. It first checks **retention**: mailbox archives must be kept 7 years and are migrated, and two servers are under **legal hold** and set aside. Laptop SSDs are **crypto-erased** and the laptops donated. Failed and high-sensitivity server drives are **shredded** on-site by a certified vendor who provides a **certificate of destruction** listing every serial number. The CMDB is updated.',
+    },
+    differs: [
+      { vs: 'Sanitization vs destruction', diff: 'Sanitization removes data but the media may be reused; destruction makes the media unusable.' },
+      { vs: 'Deleting/formatting vs sanitizing', diff: 'Deleting or quick-formatting leaves recoverable data; sanitization makes recovery infeasible.' },
+      { vs: 'Degaussing vs crypto-erase', diff: 'Degaussing works on magnetic media (HDD/tape); crypto-erase works on encrypted media including SSDs.' },
+    ],
+    cues: ['“Drives will be resold/donated” → sanitization.', '“Most sensitive data, drive must never be reused” → physical destruction.', '“Proof for auditors” → certificate of destruction.', '“Litigation pending” → legal hold before disposal.'],
+    traps: ['Degaussing doesn’t work on SSDs or flash media.', 'Never destroy data under a legal hold, even if its retention period has expired.'],
+    memory: '**Keep (retention) → Wipe (sanitize) or Wreck (destroy) → Prove (certify).**',
+    alt: [{ label: 'Selling a car', text: 'Remove your documents (retain what you need), wipe the satnav history (sanitize), or scrap it at a licensed yard (destroy) — and keep the scrapping certificate (certification).' }],
+    visual: {
+      kind: 'timeline',
+      title: 'Disposing of storage media',
+      steps: [
+        { label: 'Check retention & legal holds', detail: 'Migrate data that must be kept; set aside media under legal hold.', icon: 'gavel' },
+        { label: 'Choose the method', detail: 'Based on media type and classification: clear, purge (crypto-erase, degauss) or destroy.', icon: 'scale' },
+        { label: 'Chain of custody', detail: 'Track media from removal to disposal vendor.', icon: 'checklist' },
+        { label: 'Sanitize or destroy', detail: 'Crypto-erase SSDs for reuse; shred or pulverize high-sensitivity or failed drives.', icon: 'shredder' },
+        { label: 'Certify', detail: 'Obtain certificates listing serial numbers, method and date.', icon: 'stamp' },
+        { label: 'Update inventory', detail: 'Mark assets disposed in the CMDB.', icon: 'file-check' },
+      ],
+    },
+    flashcards: [
+      ['Why is degaussing ineffective for SSDs?', 'SSDs store data electronically in flash cells, not magnetically.'],
+      ['What overrides normal data retention and disposal?', 'A legal hold.'],
+      ['What is a certificate of destruction?', 'Documented proof (often from a vendor) that media was destroyed, listing serials, method and date.'],
+    ],
+    questions: [
+      {
+        id: '4.2-03', level: 2,
+        stem: 'A company is donating laptops with self-encrypting SSDs to a school. Which method BEST ensures previous data cannot be recovered while keeping the drives usable?',
+        options: [
+          ['Cryptographic erasure', 'Destroying the drive’s encryption key renders data unrecoverable; the drive remains usable.'],
+          ['Degaussing', 'Ineffective on SSDs and could damage them.'],
+          ['Deleting user profiles', 'Data remains recoverable.'],
+          ['Shredding the drives', 'Makes them unusable.'],
+        ],
+        answer: [0],
+        explain: 'Crypto-erase is the efficient, reliable sanitization method for encrypted SSDs.',
+        clues: ['self-encrypting SSDs', 'keeping the drives usable'],
+      },
+      {
+        id: '4.2-04', level: 2,
+        stem: 'A records manager is about to destroy financial files that have passed their seven-year retention period, but legal counsel has notified the company of pending litigation involving those records. What should happen?',
+        options: [
+          ['Preserve the records under a legal hold', 'Legal holds override retention schedules.'],
+          ['Destroy them as scheduled', 'Would violate the legal hold and could be spoliation of evidence.'],
+          ['Move them to a personal drive', 'Insecure and inappropriate.'],
+          ['Encrypt them and delete the key', 'Equivalent to destruction.'],
+        ],
+        answer: [0],
+        explain: 'Litigation requires preservation regardless of the retention schedule.',
+        clues: ['pending litigation'],
+      },
+    ],
+  },
+];
+
+export default concepts;
